@@ -1,0 +1,45 @@
+type NamaLoan @entity {
+  id: Bytes!
+  fundType: Bytes!
+  loanAmount: BigInt!
+  targetAmount: BigInt
+  duration: BigInt
+  interestRate: BigInt
+  appliedAt: BigInt!
+  withdrawAt: BigInt
+  fundRaised: BigInt
+  amountRepaid: BigInt
+  status: BigInt
+  loanType: BigInt
+  borrower: String
+  createdOnChain: String
+  destRecvChain: String
+  recverAddress: Bytes
+  liquidator: Bytes
+  txHash: Bytes
+
+  securedAssets: [CollateralizedAsset!]!
+  lenders: [Lender!]
+  activities: [Activity!]
+}
+
+type CollateralizedAsset @entity {
+  id: ID!
+  loan: NamaLoan!
+  assetAddress: Bytes!
+  assetIds: [BigInt!]!
+}
+
+type Lender @entity {
+  id: String!
+  loan: NamaLoan!
+  address: Bytes!
+  principle: BigInt!
+}
+
+type Activity @entity {
+  id: Bytes!
+  loan: NamaLoan!
+  event: String!
+  timestamp: BigInt
+}

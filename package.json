@@ -1,0 +1,23 @@
+{
+  "name": "nama-graph",
+  "license": "MIT",
+  "scripts": {
+    "prepare:kovan": "mustache config/kovan.json subgraph.yaml.mustache > subgraph.yaml",
+    "prepare:mumbai": "mustache config/mumbai.json subgraph.yaml.mustache > subgraph.yaml",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy:kovan": "npm run prepare:kovan && graph deploy 0xroad/namakovan --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy:mumbai": "npm run prepare:mumbai && graph deploy 0xroad/namamumbai --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "create:local": "graph create --node http://localhost:8020/ 0xroad/namagraph",
+    "remove:local": "graph remove --node http://localhost:8020/ 0xroad/namagraph",
+    "deploy:local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 0xroad/namagraph"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.33.0",
+    "@graphprotocol/graph-ts": "0.27.0",
+    "hardhat": "^2.10.1"
+  },
+  "devDependencies": {
+    "mustache": "^4.2.0"
+  }
+}

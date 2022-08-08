@@ -1,0 +1,77 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+features:
+  - fullTextSearch
+  - ipfsOnEthereumContracts
+dataSources:
+  - kind: ethereum
+    name: PeerLoan
+    network: {{ network }}
+    source:
+      address: '{{ peerLoanAddress }}'
+      abi: PeerLoan
+{{#peerLoanStartBlock}}
+      startBlock: {{ peerLoanStartBlock }}
+{{/peerLoanStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NamaLoan
+        - CollateralizedAsset
+        - Lender
+        - Activity
+      abis:
+        - name: PeerLoan
+          file: ./abis/PeerLoan.json
+      eventHandlers:
+        - event: LoanCreated(indexed bytes32,indexed address,indexed address,uint256)
+          handler: handleLoanCreated
+        - event: LoanCancelled(indexed bytes32,indexed address)
+          handler: handleLoanCancelled
+        - event: MakeOffer(indexed bytes32,indexed address,indexed uint8,uint256,uint256)
+          handler: handleMakeOffer
+        - event: RevokeOffer(indexed bytes32,indexed address,indexed uint8,uint256,uint256)
+          handler: handleRevokeOffer
+        - event: WithdrawFund(indexed bytes32,indexed address,uint256)
+          handler: handleWithdrawFund
+        - event: LoanRepaid(indexed bytes32,indexed address,uint256)
+          handler: handleLoanRepaid
+        - event: LenderClaimed(indexed bytes32,indexed address,uint256)
+          handler: handleLenderClaimed
+        - event: Liquidated(indexed bytes32,indexed address)
+          handler: handleLiquidated
+      file: ./src/mapping.ts
+
+{{#poolLoanAddress}}
+    name: PoolLoan
+    network: {{ network }}
+    source:
+      address: '{{ poolLoanAddress }}'
+      abi: PoolLoan
+{{#poolLoanStartBlock}}
+      startBlock: {{ poolLoanStartBlock }}
+{{/poolLoanStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NamaLoan
+        - CollateralizedAsset
+        - Lender
+        - Activity
+      abis:
+        - name: PoolLoan
+          file: ./abis/PoolLoan.json
+      eventHandlers:
+        - event: LoanCreated(indexed bytes32,indexed address,indexed address,uint256)
+          handler: handleLoanCreated
+        - event: LoanRepaid(indexed bytes32,indexed address,uint256)
+          handler: handleLoanRepaid
+        - event: Liquidated(indexed bytes32,indexed address)
+          handler: handleLiquidated
+      file: ./src/poolMapping.ts
+{{/poolLoanAddress}}
