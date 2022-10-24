@@ -1,7 +1,5 @@
 {
   "network": "mumbai",
-  "peerLoanAddress": "0x80c39322eC18e0d3f7E88E8175C44f34f00FD224",
-  "peerLoanStartBlock": 27458641,
-  "poolLoanAddress": "0x78d51DC554DCECe3f8Cbd860929c0Bd12f940016",
-  "poolLoanStartBlock": 27458695
+  "peerLoanAddress": "0x05F5222f449aF98f5eD06983B600f6843bB550CF",
+  "peerLoanStartBlock": 28769256
 }

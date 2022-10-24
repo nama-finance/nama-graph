@@ -26,6 +26,10 @@ dataSources:
       abis:
         - name: PeerLoan
           file: ./abis/PeerLoan.json
+        - name: LoanRegistry
+          file: ./abis/LoanRegistry.json
+        - name: TokenVault
+          file: ./abis/TokenVault.json
       eventHandlers:
         - event: LoanCreated(indexed bytes32,indexed address,indexed address,uint256)
           handler: handleLoanCreated
@@ -46,6 +50,7 @@ dataSources:
       file: ./src/mapping.ts
 
 {{#poolLoanAddress}}
+  - kind: ethereum
     name: PoolLoan
     network: {{ network }}
     source:

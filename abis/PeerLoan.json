@@ -6,7 +6,67 @@
   },
   {
     "inputs": [],
+    "name": "ArgumentException",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ErrorToDepositNFTs",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ErrorToReleaseAsset",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InsufficientBalance",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidFundType",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidLoanAmount",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidParameters",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "LoanAlreadyExisted",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NoSupportedNFTsException",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotAllowed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotApprovedByGateway",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotSupportedLoanException",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddress",
     "type": "error"
   },
   {
@@ -190,7 +250,7 @@
       },
       {
         "indexed": true,
-        "internalType": "enum ILoanStructure.LoanStatus",
+        "internalType": "enum DataTypes.LoanStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -259,7 +319,7 @@
       },
       {
         "indexed": true,
-        "internalType": "enum ILoanStructure.LoanStatus",
+        "internalType": "enum DataTypes.LoanStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -367,24 +427,6 @@
         "internalType": "bytes32",
         "name": "_loanId",
         "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "_addr",
-        "type": "address"
-      }
-    ],
-    "name": "addLoanVault",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "_loanId",
-        "type": "bytes32"
       }
     ],
     "name": "cancelLoanApplication",
@@ -395,12 +437,139 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_loanId",
-        "type": "bytes32"
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "loanId",
+            "type": "bytes32"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bytes32",
+                "name": "fundType",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "uint256",
+                "name": "loanAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "targetAmount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "duration",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "interestRate",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct DataTypes.LoanTerm",
+            "name": "term",
+            "type": "tuple"
+          },
+          {
+            "internalType": "uint256",
+            "name": "appliedAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawAt",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "fundRaised",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountRepaid",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum DataTypes.LoanStatus",
+            "name": "status",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum DataTypes.LoanType",
+            "name": "loanType",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "borrower",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "onlyFrom",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "createdOnChain",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "destRecvChain",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "string",
+            "name": "recverAddress",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "liquidator",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct DataTypes.LoanMetadata",
+        "name": "_metadata",
+        "type": "tuple"
       }
     ],
-    "name": "claim",
+    "name": "createLoan",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "commandId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "string",
+        "name": "sourceChain",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "sourceAddress",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes",
+        "name": "payload",
+        "type": "bytes"
+      }
+    ],
+    "name": "execute",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -409,65 +578,38 @@
     "inputs": [
       {
         "internalType": "bytes32",
-        "name": "_loanId",
+        "name": "commandId",
         "type": "bytes32"
       },
       {
-        "internalType": "address",
-        "name": "_borrower",
-        "type": "address"
-      },
-      {
-        "components": [
-          {
-            "internalType": "bytes32",
-            "name": "fundType",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "targetAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "duration",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "interestRate",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct ILoanStructure.LoanTerm",
-        "name": "_loanTerm",
-        "type": "tuple"
-      },
-      {
-        "internalType": "enum ILoanStructure.LoanType",
-        "name": "_loanType",
-        "type": "uint8"
-      },
-      {
         "internalType": "string",
-        "name": "_destRecvChain",
+        "name": "sourceChain",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "_recverAddress",
+        "name": "sourceAddress",
         "type": "string"
+      },
+      {
+        "internalType": "bytes",
+        "name": "payload",
+        "type": "bytes"
+      },
+      {
+        "internalType": "string",
+        "name": "tokenSymbol",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
       }
     ],
-    "name": "createLoan",
+    "name": "executeWithToken",
     "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -485,28 +627,30 @@
     ],
     "name": "fund",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "gasReceiver",
+    "outputs": [
       {
-        "internalType": "bytes32",
-        "name": "_loanId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "_lender",
+        "internalType": "contract IAxelarGasService",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "getLendAmount",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gateway",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "contract IAxelarGateway",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -557,7 +701,7 @@
                 "type": "uint256"
               }
             ],
-            "internalType": "struct ILoanStructure.LoanTerm",
+            "internalType": "struct DataTypes.LoanTerm",
             "name": "term",
             "type": "tuple"
           },
@@ -582,12 +726,12 @@
             "type": "uint256"
           },
           {
-            "internalType": "enum ILoanStructure.LoanStatus",
+            "internalType": "enum DataTypes.LoanStatus",
             "name": "status",
             "type": "uint8"
           },
           {
-            "internalType": "enum ILoanStructure.LoanType",
+            "internalType": "enum DataTypes.LoanType",
             "name": "loanType",
             "type": "uint8"
           },
@@ -597,14 +741,19 @@
             "type": "address"
           },
           {
+            "internalType": "address",
+            "name": "onlyFrom",
+            "type": "address"
+          },
+          {
             "internalType": "string",
             "name": "createdOnChain",
             "type": "string"
           },
           {
-            "internalType": "string",
+            "internalType": "bytes32",
             "name": "destRecvChain",
-            "type": "string"
+            "type": "bytes32"
           },
           {
             "internalType": "string",
@@ -617,26 +766,52 @@
             "type": "address"
           }
         ],
-        "internalType": "struct ILoanStructure.LoanMetadata",
+        "internalType": "struct DataTypes.LoanMetadata",
         "name": "",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_loanId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getLoanStatus",
+    "outputs": [
+      {
+        "internalType": "enum DataTypes.LoanStatus",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_loanId",
+        "type": "bytes32"
       },
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "assetAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "assetIds",
-            "type": "uint256[]"
-          }
-        ],
-        "internalType": "struct ILoanStructure.CollateralizedAsset[]",
+        "internalType": "address",
+        "name": "_lender",
+        "type": "address"
+      }
+    ],
+    "name": "getPrinciple",
+    "outputs": [
+      {
+        "internalType": "uint256",
         "name": "",
-        "type": "tuple[]"
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -676,35 +851,6 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "_loanId",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "_addr",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "isAssetInSecured",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -780,19 +926,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "loanCreator",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -817,9 +950,27 @@
         "internalType": "bytes32",
         "name": "",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "name": "loanTopBidder",
+    "name": "loanLenders",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "loanRegistry",
     "outputs": [
       {
         "internalType": "address",
@@ -838,7 +989,7 @@
         "type": "bytes32"
       }
     ],
-    "name": "loanVaults",
+    "name": "loanTopBidder",
     "outputs": [
       {
         "internalType": "address",
@@ -892,7 +1043,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct ILoanStructure.LoanTerm",
+        "internalType": "struct DataTypes.LoanTerm",
         "name": "term",
         "type": "tuple"
       },
@@ -917,12 +1068,12 @@
         "type": "uint256"
       },
       {
-        "internalType": "enum ILoanStructure.LoanStatus",
+        "internalType": "enum DataTypes.LoanStatus",
         "name": "status",
         "type": "uint8"
       },
       {
-        "internalType": "enum ILoanStructure.LoanType",
+        "internalType": "enum DataTypes.LoanType",
         "name": "loanType",
         "type": "uint8"
       },
@@ -932,14 +1083,19 @@
         "type": "address"
       },
       {
+        "internalType": "address",
+        "name": "onlyFrom",
+        "type": "address"
+      },
+      {
         "internalType": "string",
         "name": "createdOnChain",
         "type": "string"
       },
       {
-        "internalType": "string",
+        "internalType": "bytes32",
         "name": "destRecvChain",
-        "type": "string"
+        "type": "bytes32"
       },
       {
         "internalType": "string",
@@ -990,7 +1146,7 @@
   },
   {
     "inputs": [],
-    "name": "protocolFee",
+    "name": "protocolFeeRate",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1055,60 +1211,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_loanId",
-        "type": "bytes32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "assetAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "assetIds",
-            "type": "uint256[]"
-          }
-        ],
-        "internalType": "struct ILoanStructure.CollateralizedAsset[]",
-        "name": "_assets",
-        "type": "tuple[]"
-      }
-    ],
-    "name": "saveCollaterals",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "securedAssetsOfTheLoan",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "assetAddress",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "_gp",
         "type": "uint256"
@@ -1136,11 +1238,11 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_creatorAddr",
+        "name": "_registryAddr",
         "type": "address"
       }
     ],
-    "name": "setLoanCreator",
+    "name": "setLoanRegistry",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1149,11 +1251,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_fee",
+        "name": "_rate",
         "type": "uint256"
       }
     ],
-    "name": "setProtocolFee",
+    "name": "setProtocolFeeRate",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1237,6 +1339,19 @@
       }
     ],
     "name": "withdrawFund",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawNativeToken",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

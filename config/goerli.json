@@ -1,0 +1,5 @@
+{
+  "network": "goerli",
+  "peerLoanAddress": "0xe618176813A7328CF2015730bd83e2AE2Db48878",
+  "peerLoanStartBlock": 7733206
+}

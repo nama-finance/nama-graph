@@ -1,4 +1,4 @@
-import { Address, BigInt, Bytes, log } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes, log } from '@graphprotocol/graph-ts';
 import {
   LoanCreated,
   LoanCancelled,
@@ -9,8 +9,10 @@ import {
   RevokeOffer,
   LenderClaimed,
   Liquidated,
-} from "../generated/PeerLoan/PeerLoan";
-import { Activity, CollateralizedAsset, Lender, NamaLoan } from "../generated/schema";
+} from '../generated/PeerLoan/PeerLoan';
+import { LoanRegistry as LoanRegistryContract } from '../generated/PeerLoan/LoanRegistry';
+import { TokenVault as TokenVaultContract } from '../generated/PeerLoan/TokenVault';
+import { Activity, CollateralizedAsset, Lender, NamaLoan } from '../generated/schema';
 
 export function handleLoanCreated(event: LoanCreated): void {
   const loanId = event.params.loanId;
@@ -26,30 +28,38 @@ export function handleLoanCreated(event: LoanCreated): void {
     if (!loanResult.reverted) {
       const metadata = loanResult.value;
       
-      data.fundType = metadata.value0.term.fundType;
-      data.loanAmount = metadata.value0.term.loanAmount;
-      data.targetAmount = metadata.value0.term.targetAmount;
-      data.duration = metadata.value0.term.duration;
-      data.interestRate = metadata.value0.term.interestRate;
-      data.appliedAt = metadata.value0.appliedAt;
-      data.withdrawAt = metadata.value0.withdrawAt;
-      data.fundRaised = metadata.value0.fundRaised;
-      data.amountRepaid = metadata.value0.amountRepaid;
-      data.loanType = BigInt.fromI32(metadata.value0.loanType);
-      data.createdOnChain = metadata.value0.createdOnChain;
-      data.destRecvChain = metadata.value0.destRecvChain;
-      data.recverAddress = Address.fromString(metadata.value0.recverAddress);
+      data.fundType = metadata.term.fundType;
+      data.loanAmount = metadata.term.loanAmount;
+      data.targetAmount = metadata.term.targetAmount;
+      data.duration = metadata.term.duration;
+      data.interestRate = metadata.term.interestRate;
+      data.appliedAt = metadata.appliedAt;
+      data.withdrawAt = metadata.withdrawAt;
+      data.fundRaised = metadata.fundRaised;
+      data.amountRepaid = metadata.amountRepaid;
+      data.loanType = BigInt.fromI32(metadata.loanType);
+      data.createdOnChain = metadata.createdOnChain;
+      data.destRecvChain = metadata.destRecvChain.toHexString();
+      data.recverAddress = Address.fromString(metadata.recverAddress);
+      data.onlyFrom = metadata.onlyFrom;
       data.txHash = event.transaction.hash;
       
-      const assets = metadata.value1;
       const securedAssets = new Array<string>(0);
-      for (let i = 0; i < assets.length; i++) {
-        const asset = new CollateralizedAsset(assets[i].assetIds.toString());
-        securedAssets.push(asset.id);
-        asset.assetAddress = assets[i].assetAddress;
-        asset.assetIds = assets[i].assetIds;
-        asset.loan = loanId;
-        asset.save();
+      const loanRegistry = contract.try_loanRegistry();
+      if (!loanRegistry.reverted) {
+        const lrContract = LoanRegistryContract.bind(loanRegistry.value);
+        const vaultAddr = lrContract.loanVaults(loanId);
+        const vaultContract = TokenVaultContract.bind(vaultAddr);
+
+        const assets = vaultContract.getAssetsInTheLoan(loanId);
+        for (let i = 0; i < assets.length; i++) {
+          const asset = new CollateralizedAsset(assets[i].assetIds.toString());
+          securedAssets.push(asset.id);
+          asset.assetAddress = assets[i].assetAddress;
+          asset.assetIds = assets[i].assetIds;
+          asset.loan = loanId;
+          asset.save();
+        }
       }
 
       data.securedAssets = securedAssets;

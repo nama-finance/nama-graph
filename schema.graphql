@@ -15,6 +15,7 @@ type NamaLoan @entity {
   createdOnChain: String
   destRecvChain: String
   recverAddress: Bytes
+  onlyFrom: Bytes
   liquidator: Bytes
   txHash: Bytes
 
