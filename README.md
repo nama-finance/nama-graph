@@ -2,8 +2,11 @@
 
 Implements a subgraph for the [NAMA Protocol](https://github.com/nama-finance)
 
-- [Subgraph on Kovan](https://api.thegraph.com/subgraphs/name/0xroad/namakovan)
-- [Subgraph on Mumbai](https://api.thegraph.com/subgraphs/name/0xroad/namamumbai)
+- [Subgraph on Mainnet](https://thegraph.com/explorer/subgraph?id=6K4kK8DGdtrjqc8LhukXZQAbe2Y1qtDNkYR2zfm5pC3a)
+- [Subgraph on Polygon](https://api.thegraph.com/subgraphs/name/nama-finance/namapolygon)
+
+- [Subgraph on Goerli](https://api.thegraph.com/subgraphs/name/nama-finance/namagoerli)
+- [Subgraph on Mumbai](https://api.thegraph.com/subgraphs/name/nama-finance/namamumbai)
 
 For more information about:
 
