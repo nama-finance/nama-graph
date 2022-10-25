@@ -201,6 +201,7 @@ export function handleWithdrawFund(event: WithdrawFund): void {
   
     activities.push(activityId);
     data.activities = activities;
+    data.withdrawAt = event.block.timestamp;
   
     data.save();
   }
