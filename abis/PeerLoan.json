@@ -344,6 +344,31 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "oldDebtor",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newDebtor",
+        "type": "address"
+      }
+    ],
+    "name": "TransferDebtor",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "account",
         "type": "address"
@@ -806,7 +831,7 @@
         "type": "address"
       }
     ],
-    "name": "getPrinciple",
+    "name": "getPrincipal",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1277,6 +1302,24 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "_newDebtorAddr",
+        "type": "address"
+      }
+    ],
+    "name": "transferDebt",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

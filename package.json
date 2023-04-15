@@ -4,14 +4,16 @@
   "scripts": {
     "prepare:goerli": "mustache config/goerli.json subgraph.yaml.mustache > subgraph.yaml",
     "prepare:mumbai": "mustache config/mumbai.json subgraph.yaml.mustache > subgraph.yaml",
+    "prepare:ar-goerli": "mustache config/arbitrum-goerli.json subgraph.yaml.mustache > subgraph.yaml",
     "prepare:polygon": "mustache config/polygon.json subgraph.yaml.mustache > subgraph.yaml",
     "prepare:mainnet": "mustache config/mainnet.json subgraph.yaml.mustache > subgraph.yaml",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy:goerli": "npm run prepare:goerli && graph deploy --product hosted-service nama-finance/namagoerli",
     "deploy:mumbai": "npm run prepare:mumbai && graph deploy --product hosted-service nama-finance/namamumbai",
+    "deploy:ar-goerli": "npm run prepare:ar-goerli && graph deploy --product hosted-service nama-finance/arbitrum-goerli",
     "deploy:polygon": "npm run prepare:polygon && graph deploy --product hosted-service nama-finance/namapolygon",
-    "deploy:mainnet": "npm run prepare:mainnet && graph deploy --studio namamainnet",
+    "deploy:mainnet": "npm run prepare:mainnet && graph deploy --studio nama-protocol",
     "create:local": "graph create --node http://localhost:8020/ nama-finance/namagraph",
     "remove:local": "graph remove --node http://localhost:8020/ nama-finance/namagraph",
     "deploy:local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 nama-finance/namagraph"

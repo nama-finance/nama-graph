@@ -35,7 +35,7 @@ type Lender @entity {
   id: String!
   loan: NamaLoan!
   address: Bytes!
-  principle: BigInt!
+  principal: BigInt!
 }
 
 type Activity @entity {

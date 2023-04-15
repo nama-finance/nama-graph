@@ -96,6 +96,8 @@ export function handleLoanCancelled(event: LoanCancelled): void {
   
     activities.push(activityId);
     data.activities = activities;
+    data.lenders = [];
+    data.fundRaised = BigInt.fromI32(0);
   
     data.save();
   }
@@ -112,11 +114,13 @@ export function handleMakeOffer(event: MakeOffer): void {
     let lender = Lender.load(lenderId);
     if (lender == null) {
       lender = new Lender(lenderId);
+      lender.principal = BigInt.fromI32(0);
     }
     lender.address = event.params.lender;
-    lender.principle = event.params.amount;
-    
+    lender.principal = event.params.amount;
     lender.loan = data.id;
+    lender.save();
+
     let lenders = data.lenders;
     if (lenders == null) {
       lenders = new Array<string>(0);
@@ -125,7 +129,6 @@ export function handleMakeOffer(event: MakeOffer): void {
     if (idx == -1) {
       lenders.push(lenderId);
       data.lenders = lenders;
-      lender.save();
     }
 
     const activityId = event.transaction.hash;
@@ -155,8 +158,9 @@ export function handleRevokeOffer(event: RevokeOffer): void {
       lender = new Lender(event.params.lender.toHexString());
     }
     lender.address = event.params.lender;
-    lender.principle = lender.principle.minus(event.params.amount);
+    lender.principal = lender.principal.minus(event.params.amount);
     lender.loan = data.id;
+    lender.save();
 
     let lenders = data.lenders;
     if (lenders == null) {
@@ -168,7 +172,6 @@ export function handleRevokeOffer(event: RevokeOffer): void {
       lenders.push(lender.id);
 
       data.lenders = lenders;
-      lender.save();
     }
 
     const activityId = event.transaction.hash;
